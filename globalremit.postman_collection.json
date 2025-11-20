@@ -1,0 +1,117 @@
+{
+	"info": {
+		"name": "GlobalRemit API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Alice\",\n    \"email\": \"alice@test.com\",\n    \"password\": \"123456\",\n    \"country\": \"US\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{base_url}}/auth/register", "host": ["{{base_url}}"], "path": ["auth", "register"] }
+					}
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"alice@test.com\",\n    \"password\": \"123456\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{base_url}}/auth/login", "host": ["{{base_url}}"], "path": ["auth", "login"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "Transfers",
+			"item": [
+				{
+					"name": "Create Receiver",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Bob French\",\n    \"country\": \"France\",\n    \"currency\": \"EUR\",\n    \"bankName\": \"BNP Paribas\",\n    \"accountNumber\": \"FR7654321\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{base_url}}/receivers", "host": ["{{base_url}}"], "path": ["receivers"] }
+					}
+				},
+				{
+					"name": "Initiate Transfer",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"receiverId\": \"{{receiver_id}}\",\n    \"sourceCurrency\": \"USD\",\n    \"targetCurrency\": \"EUR\",\n    \"sourceAmount\": 100\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{base_url}}/transfers", "host": ["{{base_url}}"], "path": ["transfers"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "Webhooks (Mock)",
+			"item": [
+				{
+					"name": "PSP Success",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"transferId\": \"{{transfer_id}}\",\n    \"pspTransactionId\": \"tx_psp_123\",\n    \"status\": \"SUCCESS\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{base_url}}/webhooks/psp", "host": ["{{base_url}}"], "path": ["webhooks", "psp"] }
+					}
+				},
+				{
+					"name": "Payout Success",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"transferId\": \"{{transfer_id}}\",\n    \"payoutTransactionId\": \"tx_bank_999\",\n    \"status\": \"SUCCESS\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{base_url}}/webhooks/payout", "host": ["{{base_url}}"], "path": ["webhooks", "payout"] }
+					}
+				}
+			]
+		},
+        {
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Settle on Blockchain",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Authorization", "value": "Bearer {{admin_token}}" }],
+						"url": { "raw": "{{base_url}}/admin/settle", "host": ["{{base_url}}"], "path": ["admin", "settle"] }
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{ "key": "base_url", "value": "http://localhost:5000/api/v1" }
+	]
+}

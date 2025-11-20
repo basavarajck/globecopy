@@ -1,0 +1,5 @@
+{
+  "name": "Copy of GlobalRemit Backend",
+  "description": "Robust Node.js backend for cross-border remittances with atomic transactions, liquidity pools, and blockchain settlement.",
+  "requestFramePermissions": []
+}
